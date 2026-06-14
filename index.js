@@ -52,3 +52,35 @@ ${response.data.punchline}`
   await app.start();
   console.log("bot is running!");
 })();
+
+app.command("/baristagpt-coffee", async ({ ack, respond }) => {
+  await ack();
+
+  try {
+    await respond({
+      response_type: "in_channel", // This allows everyone in the channel to see it
+      text: "Here's an image of coffee", 
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "Here's an image of coffee ☕"
+          }
+        },
+        {
+          type: "image",
+          image_url: "https://coffee.alexflipnote.dev/O-slTEy4DNY_coffee.jpg",
+          alt_text: "Coffee Image"
+        }
+      ]
+    });
+  } catch (err) {
+    // Keep error messages ephemeral (private) so they don't spam the channel
+    await respond({ 
+      response_type: "ephemeral", 
+      text: "Failed to display the coffee image." 
+    });
+  }
+});
+
